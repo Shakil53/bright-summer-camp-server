@@ -39,13 +39,31 @@ async function run() {
             const result = await cursor.toArray();
             res.send(result);
         })
-        app.get('/courses/:id'), async (req, res) => {
+
+        app.get('courses/:id', async (req, res) => {
             const id = req.params.id;
-            console.log(id);
-            const query = { _id: new ObjectId(id) };
-            const result = await courseCollection.findOne(query)
+            const query = { _id: new ObjectId(id) }
+
+            const options = {
+
+                // Include only the `title` and `imdb` fields in the returned document
+                projection: { name: 1, details: 1, rating: 1, price: 1, img: 1, icon: 1 }
+            };
+            const result = await courseCollection.findOne(query, options)
             res.send(result)
-        }
+        })
+
+
+        // app.get('/courses/:id'), async (req, res) => {
+
+        //     const id = req.params.id;
+        //     const query = { _id: new ObjectId(id) };
+        //     // const options = {
+        //     //     projection: { name: 1, details: 1, price: 1, img: 1, icon: 1, rating: 1 }
+        //     // }
+        //     const result = await courseCollection.findOne(query)
+        //     res.send(result)
+        // }
 
 
 
