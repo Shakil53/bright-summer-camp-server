@@ -31,6 +31,7 @@ async function run() {
 
 
         const courseCollection = client.db("brightSummerCamp").collection("courses")
+        const bookingCollection = client.db("brightSummerCamp").collection("bookings")
 
 
         //bright-summer-camp courses-------get
@@ -40,7 +41,7 @@ async function run() {
             res.send(result);
         })
 
-        app.get('courses/:id', async (req, res) => {
+        app.get('/courses/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: new ObjectId(id) }
 
@@ -52,18 +53,14 @@ async function run() {
             const result = await courseCollection.findOne(query, options)
             res.send(result)
         })
+        //booking enrollment
+        app.post('/bookings', async (req, res) => {
+            const bookings = req.body;
+            console.log(bookings)
+            const result = await bookingCollection.insertOne(bookings)
+            res.send(result)
+        })
 
-
-        // app.get('/courses/:id'), async (req, res) => {
-
-        //     const id = req.params.id;
-        //     const query = { _id: new ObjectId(id) };
-        //     // const options = {
-        //     //     projection: { name: 1, details: 1, price: 1, img: 1, icon: 1, rating: 1 }
-        //     // }
-        //     const result = await courseCollection.findOne(query)
-        //     res.send(result)
-        // }
 
 
 
